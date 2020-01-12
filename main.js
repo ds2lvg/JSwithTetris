@@ -24,14 +24,24 @@ moves = {
   [KEY.LEFT]: p => ({...p, x: p.x - 1}),
   [KEY.RIGHT]: p => ({...p, x: p.x + 1}),
   [KEY.DOWN]: p => ({...p, y: p.y + 1}),
+  [KEY.SPACE]: p => ({ ...p, y: p.y + 1 }),
 }
 
 document.addEventListener('keydown', event => {
   if(moves[event.keyCode]) {
     event.preventDefault();
-
+    
     // 조각의 새 상태를 얻음
     let p = moves[event.keyCode](board.piece);
+
+    // 스페이스 누를 경우 하드 드롭
+    if (event.keyCode === KEY.SPACE) {
+      while (board.valid(p)) {
+        board.piece.move(p);   
+        p = moves[KEY.DOWN](board.piece);
+      }
+    }
+    
     if(board.valid(p)) {
       // 이동 가능한 조각을 이동
       board.piece.move(p);
