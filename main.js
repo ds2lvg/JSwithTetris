@@ -25,6 +25,7 @@ moves = {
   [KEY.RIGHT]: p => ({...p, x: p.x + 1}),
   [KEY.DOWN]: p => ({...p, y: p.y + 1}),
   [KEY.SPACE]: p => ({ ...p, y: p.y + 1 }),
+  [KEY.UP]: p => board.rotate(p),
 }
 
 document.addEventListener('keydown', event => {
@@ -41,7 +42,7 @@ document.addEventListener('keydown', event => {
         p = moves[KEY.DOWN](board.piece);
       }
     }
-    
+
     if(board.valid(p)) {
       // 이동 가능한 조각을 이동
       board.piece.move(p);

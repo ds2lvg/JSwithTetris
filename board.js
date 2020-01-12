@@ -36,5 +36,23 @@ class Board {
       });
     });
   }
+
+  rotate(p){
+    // 불변성을 위해 JSON으로 복사
+    let clone = JSON.parse(JSON.stringify(p));
+    
+    // 행과 열을 서로 바꾸는 반사행렬 처리
+    for (let y = 0; y < p.shape.length; ++y) {
+      for (let x = 0; x < y; ++x) {
+        [p.shape[x][y], p.shape[y][x]] = 
+        [p.shape[y][x], p.shape[x][y]];
+      }
+    }
+    
+    // 열 순서대로 뒤집는다.
+    p.shape.forEach(row => row.reverse());
+
+    return clone;
+  }
 }
 

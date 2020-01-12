@@ -6,10 +6,14 @@ const BLOCK_SIZE = 30;
 
 // 키코드로 키매핑
 const KEY = {
+  ESC: 27,
+  SPACE: 32,
   LEFT: 37,
+  UP: 38,
   RIGHT: 39,
   DOWN: 40,
-  SPACE: 32,
+  P: 80,
+  Q: 81
 }
 // 불변으로 만드는 값은 1레벨에서만 동작한다 -> 객체 안에 하위의 객체는 불변하게 만들 수 없다.
 Object.freeze(KEY);
