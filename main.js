@@ -11,11 +11,34 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 let board = new Board();
 
 function play() {
-  board.reset();
+  board.reset(); // 보드판 초기화
   console.table(board.grid);
 
   let piece = new Piece(ctx);
-  piece.draw();
+  piece.draw(); // 테트로미노 그리기
 
   board.piece=piece;
 }
+
+moves = {
+  [KEY.LEFT]: p => ({...p, x: p.x - 1}),
+  [KEY.RIGHT]: p => ({...p, x: p.x + 1}),
+  [KEY.DOWN]: p => ({...p, y: p.y + 1}),
+}
+
+document.addEventListener('keydown', event => {
+  if(moves[event.keyCode]) {
+    event.preventDefault();
+
+    // 조각의 새 상태를 얻음
+    let p = moves[event.keyCode](board.piece);
+    if(board.valid(p)) {
+      // 이동 가능한 조각을 이동
+      board.piece.move(p);
+      // 그리기 전에 이전 좌표를 삭제
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      // 테트로미노 그림
+      board.piece.draw();
+    }
+  }
+});

@@ -29,6 +29,12 @@ class Piece {
         if(value > 0) this.ctx.fillRect(this.x + x, this.y + y, 1, 1);
       });
     });
-    
   }
+
+  // 키보드로 움직이기
+  move(p) {
+    this.x = p.x;
+    this.y = p.y;
+  }
+
 }
