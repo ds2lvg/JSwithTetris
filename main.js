@@ -1,22 +1,41 @@
+// 현재 블록
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
+// 다음 블록
+const canvasNext = document.getElementById('next');
+const ctxNext = canvasNext.getContext('2d');
 
 // 캔버스 크기 계산
-ctx.canvas.width = COLS * BLOCK_SIZE;
-ctx.canvas.height = ROWS * BLOCK_SIZE;
+// ctx.canvas.width = COLS * BLOCK_SIZE;
+// ctx.canvas.height = ROWS * BLOCK_SIZE;
 
 // 블록 크기 변경: 매번 BLOCK_SIZE로 계산할 필요가 없이 블록의 크기를 1로 취급
-ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
+// ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 
-let board = new Board();
+let requestId;
+
+let board = new Board(ctx, ctxNext);
+
+initNext();
+
+function initNext() {
+  // Calculate size of canvas from constants.
+  ctxNext.canvas.width = 4 * BLOCK_SIZE;
+  ctxNext.canvas.height = 4 * BLOCK_SIZE;
+  ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
+}
 
 function play() {
   board.reset(); // 보드판 초기화
-  console.table(board.grid);
+  // console.table(board.grid);
 
-  let piece = new Piece(ctx);
-  board.piece=piece;
+  // let piece = new Piece(ctx);
+  // board.piece=piece;
 
+  if (requestId) {
+    cancelAnimationFrame(requestId);
+  }
+  
   // piece.draw(); // 테트로미노 그리기
   animate();
 }
@@ -43,7 +62,8 @@ function animate(now=0){
   // 새로운 상태로 그리기 전에 보드를 지운다.
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
 
-  board.piece.draw();  
+  // board에 piece 추가했으므로 piece 삭제
+  board.draw();  
 
   // drop()메서드를 호출을 애니메이션으로 반복 처리
   requestId = requestAnimationFrame(animate);

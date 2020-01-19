@@ -4,17 +4,18 @@ class Piece {
   color;
   shape;
   ctx;
+  typeId; // 조각타입도 인스턴스마다 할당(this.typeId으로 접근)
 
   constructor(ctx) {
     this.ctx = ctx;
     this.spawn();
   }
 
+  // Play 버튼을 누를 때마다 다른 모양과 색상의 조각들 생성
   spawn() {
-    // Play 버튼을 누를 때마다 다른 모양과 색상의 조각들 생성
-    const typeId = this.randomizeTetrominoType(COLORS.length);
-    this.shape = SHAPES[typeId];
-    this.color = COLORS[typeId];
+    this.typeId = this.randomizeTetrominoType(COLORS.length);
+    this.shape = SHAPES[this.typeId];
+    this.color = COLORS[this.typeId];
 
     // 시작 위치
     this.x = 0;
@@ -35,10 +36,16 @@ class Piece {
   move(p) {
     this.x = p.x;
     this.y = p.y;
+    this.shape = p.shape;
   }
   
   // 한 조각을 선택하기 위해 조각들의 인덱스를 랜덤화
   randomizeTetrominoType(noOfTypes) {
     return Math.floor(Math.random() * noOfTypes);
+  }
+
+  // 시작 위치
+  setStartingPosition() {
+    this.x = this.typeId === 4 ? 4 : 3;
   }
 }
