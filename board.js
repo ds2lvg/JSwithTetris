@@ -93,6 +93,8 @@ class Board {
     } else {
       // 유효한 공간이 아니면 못움직이게 고정
       this.freeze();
+      // 한 라인이 꽉차면 블록 삭제
+      this.clearLines();
       if (this.piece.y === 0) {
         // Game over
         return false;
@@ -142,6 +144,19 @@ class Board {
       this.ctxNext.canvas.height
     );
     this.next.draw();
+  }
+
+  clearLines() {
+    this.grid.forEach((row, y) => {
+      // 모든 값이 0보다 큰지 비교한다.
+      if (row.every(value => value > 0)) {
+        // 행을 삭제한다.
+        this.grid.splice(y, 1);
+        
+        // 맨 위에 0으로 채워진 행을 추가한다.
+        this.grid.unshift(Array(COLS).fill(0));
+      } 
+    });
   }
 }
 
