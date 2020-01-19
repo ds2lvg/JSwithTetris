@@ -1,5 +1,7 @@
 class Board {
-  grid;
+  grid;    // 보드 그리드
+  piece;   // 현재 조각 객체
+
   // 보드 초기화
   reset() {
     this.grid = this.getEmptyBoard();
@@ -59,8 +61,25 @@ class Board {
     let p = moves[KEY.DOWN](this.piece);
     if (this.valid(p)) {
       this.piece.move(p);
+    } else {
+      // 유효한 공간이 아니면 못움직이게 고정
+      this.freeze();
+      if (this.piece.y === 0) {
+        // Game over
+        return false;
+      }
     }
     return true;
+  }
+
+  freeze() {
+    this.piece.shape.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value > 0) {
+          this.grid[y + this.piece.y][x + this.piece.x] = value;
+        }
+      });
+    });
   }
 
 }
