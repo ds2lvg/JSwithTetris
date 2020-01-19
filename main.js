@@ -79,8 +79,14 @@ document.addEventListener('keydown', event => {
     // 스페이스 누를 경우 하드 드롭
     if (event.keyCode === KEY.SPACE) {
       while (board.valid(p)) {
+        account.score += POINTS.HARD_DROP; // 하드 드롭시 점수 증가
         board.piece.move(p);   
         p = moves[KEY.DOWN](board.piece);
+      }
+    } else if (board.valid(p)) {
+      board.piece.move(p);
+      if (event.keyCode === KEY.DOWN) {
+        account.score += POINTS.SOFT_DROP; // 아래 방향키 눌러서 빨리 내리면 점수 증가
       }
     }
 
@@ -92,5 +98,26 @@ document.addEventListener('keydown', event => {
       // 테트로미노 그림
       board.piece.draw();
     }
+  }
+});
+
+// 점수 계산
+let accountValues = {
+  score: 0,
+  lines: 0
+}
+
+function updateAccount(key, value) {
+  let element = document.getElementById(key);
+  if (element) {
+    element.textContent = value;
+  }
+}
+
+let account = new Proxy(accountValues, {
+  set: (target, key, value) => {
+    target[key] = value;
+    updateAccount(key, value);
+    return true;
   }
 });

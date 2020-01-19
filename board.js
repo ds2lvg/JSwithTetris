@@ -147,9 +147,13 @@ class Board {
   }
 
   clearLines() {
+    let lines = 0; // 지운 라인 수
+
     this.grid.forEach((row, y) => {
       // 모든 값이 0보다 큰지 비교한다.
       if (row.every(value => value > 0)) {
+        lines++;
+
         // 행을 삭제한다.
         this.grid.splice(y, 1);
         
@@ -157,6 +161,22 @@ class Board {
         this.grid.unshift(Array(COLS).fill(0));
       } 
     });
+
+    if (lines > 0) {    
+      // 지워진 라인들이 있다면 점수를 추가
+      account.score += this.getLineClearPoints(lines);  
+    }
+  }
+
+  // 지운 라인 갯수당 점수 제공
+  getLineClearPoints(lines) {  
+    let score = 
+      lines === 1 ? POINTS.SINGLE :
+      lines === 2 ? POINTS.DOUBLE :  
+      lines === 3 ? POINTS.TRIPLE :     
+      lines === 4 ? POINTS.TETRIS : 
+      0;
+    return score;
   }
 }
 

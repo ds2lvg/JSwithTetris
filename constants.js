@@ -41,3 +41,14 @@ const SHAPES = [
   [[7, 7, 0], [0, 7, 7], [0, 0, 0]]
 ];
 Object.freeze(SHAPES);
+
+// 점수
+const POINTS = {
+  SINGLE: 100,
+  DOUBLE: 300,
+  TRIPLE: 500,
+  TETRIS: 800,
+  SOFT_DROP: 1,
+  HARD_DROP: 2
+}
+Object.freeze(POINTS);
