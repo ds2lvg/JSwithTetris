@@ -83,6 +83,7 @@ document.addEventListener('keydown', event => {
         board.piece.move(p);   
         p = moves[KEY.DOWN](board.piece);
       }
+      board.piece.hardDrop();
     } else if (board.valid(p)) {
       board.piece.move(p);
       if (event.keyCode === KEY.DOWN) {

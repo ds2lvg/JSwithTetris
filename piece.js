@@ -14,14 +14,11 @@ class Piece {
 
   // Play 버튼을 누를 때마다 다른 모양과 색상의 조각들 생성
   spawn() {
-    this.typeId = this.randomizeTetrominoType(COLORS.length);
+    this.typeId = this.randomizeTetrominoType(COLORS.length -1);
     this.shape = SHAPES[this.typeId];
     this.color = COLORS[this.typeId];
-
-    // 시작 위치
     this.x = 0;
     this.y = 0;
-
     this.hardDropped = false;
   }
 
@@ -46,7 +43,7 @@ class Piece {
   
   // 한 조각을 선택하기 위해 조각들의 인덱스를 랜덤화
   randomizeTetrominoType(noOfTypes) {
-    return Math.floor(Math.random() * noOfTypes);
+    return Math.floor(Math.random() * noOfTypes + 1);
   }
 
   // 시작 위치
