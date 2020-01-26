@@ -22,7 +22,7 @@ class Board {
     this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 
     // 다음 조각 생성
-    this.getNewPiece();
+    // this.getNewPiece();
   }
 
   // 게임 초기화
@@ -55,17 +55,19 @@ class Board {
   }
 
   valid(p) {
-    // 조각의 모든 블록 좌표를 계산하고 유효한 위치인지 확인한다
-    return p.shape.every((row, dy) => {
-      return row.every((value, dx) => {
-        let x = p.x + dx;
-        let y = p.y + dy;
-        return (
-          value === 0 ||
-          (this.insideWalls(x) && this.aboveFloor(y) && this.notOccupied(x, y))
-        );
+    if(p) {
+      // 조각의 모든 블록 좌표를 계산하고 유효한 위치인지 확인한다
+      return p.shape.every((row, dy) => {
+        return row.every((value, dx) => {
+          let x = p.x + dx;
+          let y = p.y + dy;
+          return (
+            value === 0 ||
+            (this.insideWalls(x) && this.aboveFloor(y) && this.notOccupied(x, y))
+          );
+        });
       });
-    });
+    }
   }
 
   rotate(piece){

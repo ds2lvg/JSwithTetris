@@ -5,6 +5,7 @@ class Piece {
   shape;
   ctx;
   typeId; // 조각타입도 인스턴스마다 할당(this.typeId으로 접근)
+  hardDropped;
 
   constructor(ctx) {
     this.ctx = ctx;
@@ -20,6 +21,8 @@ class Piece {
     // 시작 위치
     this.x = 0;
     this.y = 0;
+
+    this.hardDropped = false;
   }
 
   draw() {
@@ -34,8 +37,10 @@ class Piece {
 
   // 키보드로 움직이기
   move(p) {
-    this.x = p.x;
-    this.y = p.y;
+    if(!this.hardDropped){
+      this.x = p.x;
+      this.y = p.y;
+    }
     this.shape = p.shape;
   }
   
@@ -47,5 +52,9 @@ class Piece {
   // 시작 위치
   setStartingPosition() {
     this.x = this.typeId === 4 ? 4 : 3;
+  }
+
+  hardDrop(){
+    this.hardDropped = true;
   }
 }
