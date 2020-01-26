@@ -27,7 +27,7 @@ function initNext() {
 
 function play() {
   resetGame();
-
+  time.start = performance.now();
   if (requestId) {
     cancelAnimationFrame(requestId);
   }
@@ -68,12 +68,16 @@ function animate(now=0){
 }
 
 document.addEventListener('keydown', event => {
+  if (event.keyCode === KEY.P) {
+    pause();
+  }
+  
   if(moves[event.keyCode]) {
     event.preventDefault();
     
     // 조각의 새 상태를 얻음
     let p = moves[event.keyCode](board.piece);
-
+    
     // 스페이스 누를 경우 하드 드롭
     if (event.keyCode === KEY.SPACE) {
       while (board.valid(p)) {
@@ -87,15 +91,6 @@ document.addEventListener('keydown', event => {
       if (event.keyCode === KEY.DOWN) {
         account.score += POINTS.SOFT_DROP; // 아래 방향키 눌러서 빨리 내리면 점수 증가
       }
-    }
-
-    if(board.valid(p)) {
-      // 이동 가능한 조각을 이동
-      board.piece.move(p);
-      // 그리기 전에 이전 좌표를 삭제
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      // 테트로미노 그림
-      board.piece.draw();
     }
   }
 });
@@ -127,6 +122,7 @@ function resetGame() {
   account.lines = 0;
   account.level = 0;
   board.reset(); // 보드판 초기화
+  time = { start: 0, elapsed: 0, level: LEVEL[account.level] };
 }
 
 function gameOver() {
@@ -136,4 +132,19 @@ function gameOver() {
   ctx.font = '1px Arial';
   ctx.fillStyle = 'red';
   ctx.fillText('GAME OVER', 1.8, 4);
+}
+
+function pause() {
+  if (!requestId) {
+    animate();
+    return;
+  }
+  cancelAnimationFrame(requestId);
+  requestId = null;
+  
+  ctx.fillStyle = 'black';
+  ctx.fillRect(1, 3, 8, 1.2);
+  ctx.font = '1px Arial';
+  ctx.fillStyle = 'yellow';
+  ctx.fillText('PAUSED', 3, 4);
 }

@@ -4,8 +4,8 @@ class Board {
   next;    // 다음 조각 객체
   ctx;     // 현재 조각의 캔버스
   ctxNext; // 다음 조각의 캔버스
-  // requestId;
-  // time;
+  requestId;
+  time;
 
   constructor(ctx, ctxNext) {
     this.ctx = ctx;
@@ -20,9 +20,6 @@ class Board {
 
     // 블록 크기 변경: 매번 BLOCK_SIZE로 계산할 필요가 없이 블록의 크기를 1로 취급
     this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
-
-    // 다음 조각 생성
-    // this.getNewPiece();
   }
 
   // 게임 초기화
