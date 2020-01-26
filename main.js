@@ -26,17 +26,12 @@ function initNext() {
 }
 
 function play() {
-  board.reset(); // 보드판 초기화
-  // console.table(board.grid);
-
-  // let piece = new Piece(ctx);
-  // board.piece=piece;
+  resetGame();
 
   if (requestId) {
     cancelAnimationFrame(requestId);
   }
   
-  // piece.draw(); // 테트로미노 그리기
   animate();
 }
 
@@ -105,7 +100,8 @@ document.addEventListener('keydown', event => {
 // 점수 계산
 let accountValues = {
   score: 0,
-  lines: 0
+  lines: 0,
+  level: 0,
 }
 
 function updateAccount(key, value) {
@@ -122,3 +118,10 @@ let account = new Proxy(accountValues, {
     return true;
   }
 });
+
+function resetGame() {
+  account.score = 0;
+  account.lines = 0;
+  account.level = 0;
+  board.reset(); // 보드판 초기화
+}

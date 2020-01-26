@@ -167,6 +167,18 @@ class Board {
     if (lines > 0) {    
       // 지워진 라인들이 있다면 점수를 추가
       account.score += this.getLineClearPoints(lines);  
+      account.lines += lines;
+
+      // 다음 레벨을 위한 라인 수에 달성했다면
+      if (account.lines >= LINES_PER_LEVEL) {
+        account.level++;  
+        
+        // 다음 레벨을 작동하기 위해 라인을 지운다.
+        account.lines -= LINES_PER_LEVEL;
+
+        // 게임 속도를 높인다.
+        time.level = LEVEL[account.level];
+      }
     }
   }
 
@@ -178,7 +190,8 @@ class Board {
       lines === 3 ? POINTS.TRIPLE :     
       lines === 4 ? POINTS.TETRIS : 
       0;
-    return score;
+    // 레벨에 따라 점수 차등 적용
+    return (account.level + 1) * score;
   }
 }
 
