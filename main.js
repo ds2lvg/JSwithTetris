@@ -51,7 +51,10 @@ function animate(now=0){
   // 1초마다 아래로 한칸씩 움직이는 drop()메서드를 호출
   if(time.elapsed > time.level) {
     time.start = now;
-    board.drop();
+    if (!board.drop()) {
+      gameOver();
+      return;
+    }
   }  
 
   // 새로운 상태로 그리기 전에 보드를 지운다.
@@ -124,4 +127,13 @@ function resetGame() {
   account.lines = 0;
   account.level = 0;
   board.reset(); // 보드판 초기화
+}
+
+function gameOver() {
+  cancelAnimationFrame(requestId);
+  ctx.fillStyle = 'black';
+  ctx.fillRect(1, 3, 8, 1.2);
+  ctx.font = '1px Arial';
+  ctx.fillStyle = 'red';
+  ctx.fillText('GAME OVER', 1.8, 4);
 }
